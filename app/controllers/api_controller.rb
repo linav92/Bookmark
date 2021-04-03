@@ -16,6 +16,6 @@ class ApiController < ApplicationController
           bookmarks: category.bookmarks.pluck(:title)
         }
         render json: hash
-      end
+    end
     
 end

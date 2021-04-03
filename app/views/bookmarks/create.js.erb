@@ -1,3 +1,1 @@
-var txt3 = document.createElement("tr")
-txt3.innerHTML=`<%= (@out.html_safe) %>`
-$("#bookmarks-list").append(txt3);
+$("#bookmarks-list").append("<%= escape_javascript(render @bookmark, locals: { bookmark: @bookmark} ) %>"​)

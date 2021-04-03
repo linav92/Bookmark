@@ -49,7 +49,7 @@ class BookmarksController < ApplicationController
     
     respond_to do |format|
       if @bookmark.save
-        format.js { }
+        format.js {redirect_to bookmarks_path, notice: "Bookmark was successfully created."  }
         format.html { redirect_to @bookmark, notice: "Bookmark was successfully created." }
         format.json { render :show, status: :created, location: @bookmark }
       else
@@ -61,9 +61,26 @@ class BookmarksController < ApplicationController
 
   # PATCH/PUT /bookmarks/1 or /bookmarks/1.json
   def update
+    params[:bookmark][:category_ids].each do |cID| 
+      if cID != ""
+        @bookmarkcategory = BookmarkCategory.new
+        @bookmarkcategory.category_id= cID
+        @bookmarkcategory.bookmark_id = @bookmark.id
+        @bookmarkcategory.save
+      end 
+    end 
+
+    params[:bookmark][:kind_ids].each do |kID| 
+      if kID != ""
+        @bookmarkcategory = BookmarkKind.new
+        @bookmarkcategory.kind_id= kID
+        @bookmarkcategory.bookmark_id = @bookmark.id
+        @bookmarkcategory.save
+      end 
+    end 
     respond_to do |format|
       if @bookmark.update(bookmark_params)
-        format.js  { redirect_to root_path, notice: "title was successfully created." }
+        format.js  { redirect_to bookmarks_path, notice: "title was successfully created." }
         format.html { redirect_to @bookmark, notice: "Bookmark was successfully updated." }
         format.json { render :show, status: :ok, location: @bookmark }
       else
