@@ -46,10 +46,9 @@ class BookmarksController < ApplicationController
         @bookmarkcategory.save
       end 
     end 
-    p params
     respond_to do |format|
       if @bookmark.save
-        format.js {}
+        format.js { redirect_to @bookmark}
         format.html { redirect_to @bookmark, notice: "Bookmark was successfully created." }
         format.json { render :show, status: :created, location: @bookmark }
       else
@@ -63,6 +62,7 @@ class BookmarksController < ApplicationController
   def update
     respond_to do |format|
       if @bookmark.update(bookmark_params)
+        format.js  { redirect_to root_path, notice: "title was successfully created." }
         format.html { redirect_to @bookmark, notice: "Bookmark was successfully updated." }
         format.json { render :show, status: :ok, location: @bookmark }
       else

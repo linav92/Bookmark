@@ -2,7 +2,7 @@
 
 <h1>Bookmarks</h1>
 
-<div class="pb-4" id="form">
+<div class="pb-4" id="bookmark_edit">
   <%= render "form", bookmark: @bookmark %>
 </div>
 
@@ -18,29 +18,7 @@
   </thead>
 
   <tbody id="bookmarks-list">
-    <% @bookmarks.each do |bookmark| %>
-      <tr>
-        <td><%= bookmark.title %></td>
-        <td><%= bookmark.url %></td>
-        <td>
-          <ul>
-            <% bookmark.categories.each do |c| %>
-              <li><%= c %></li>
-            <% end %>
-          </ul>
-        </td>
-        <td>
-          <ul>
-            <% bookmark.kinds.each do |k| %>
-              <li><%= k  %></li>
-            <% end %>
-          </ul>
-        </td>
-        <td><%= link_to 'Show', bookmark %></td>
-        <td><%= link_to 'Edit', edit_bookmark_path(bookmark) %></td>
-        <td><%= link_to 'Destroy', bookmark, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
+    <%= render 'index' %>
   </tbody>
 </table>
 
