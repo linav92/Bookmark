@@ -16,12 +16,12 @@
     <%= form.text_field :title, class: 'form-control' %>
   </div>
 
-  <div class="form-group">
+  <div class="field">
     <%= form.label :is_public %>
-    <%= form.check_box :is_public%>
+    <%= form.check_box :is_public %>
   </div>
 
-  <div class="fieform-groupld">
+  <div class="form-group">
     <%= form.label :category_id %>
     <%= form.collection_select :category_id, Category.all, :id, :title,{ include_blank: true},{class: 'form-control'}  %>
   </div>
