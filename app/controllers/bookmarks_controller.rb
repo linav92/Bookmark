@@ -4,6 +4,7 @@ class BookmarksController < ApplicationController
   # GET /bookmarks or /bookmarks.json
   def index
     @bookmarks = Bookmark.all
+    @bookmark = Bookmark.new
   end
 
   # GET /bookmarks/1 or /bookmarks/1.json
@@ -21,10 +22,34 @@ class BookmarksController < ApplicationController
 
   # POST /bookmarks or /bookmarks.json
   def create
-    @bookmark = Bookmark.new(bookmark_params)
+    @bookmark = Bookmark.new
+    @bookmark.title= params[:bookmark][:title]
+    @bookmark.url= params[:bookmark][:url]
+    @bookmark.category_ids= params[:bookmark][:category_id]
+    @bookmark.kind_ids= params[:bookmark][:kind_id]
+    @bookmark.save
 
+    params[:bookmark][:category_ids].each do |cID| 
+      if cID != ""
+        @bookmarkcategory = BookmarkCategory.new
+        @bookmarkcategory.category_id= cID
+        @bookmarkcategory.bookmark_id = @bookmark.id
+        @bookmarkcategory.save
+      end 
+    end 
+
+    params[:bookmark][:kind_ids].each do |kID| 
+      if kID != ""
+        @bookmarkcategory = BookmarkKind.new
+        @bookmarkcategory.kind_id= kID
+        @bookmarkcategory.bookmark_id = @bookmark.id
+        @bookmarkcategory.save
+      end 
+    end 
+    p params
     respond_to do |format|
       if @bookmark.save
+        format.js {}
         format.html { redirect_to @bookmark, notice: "Bookmark was successfully created." }
         format.json { render :show, status: :created, location: @bookmark }
       else
@@ -64,6 +89,6 @@ class BookmarksController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def bookmark_params
-      params.require(:bookmark).permit(:title, :url, :category_id, :kind_id)
+      params.require(:bookmark).permit(:title, :url, category_id: [], kind_id: [])
     end
 end

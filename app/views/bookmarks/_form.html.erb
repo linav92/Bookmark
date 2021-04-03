@@ -1,4 +1,4 @@
-<%= form_with(model: bookmark) do |form| %>
+<%= form_with(model: bookmark, remote: true, :format => 'js') do |form| %>
   <% if bookmark.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(bookmark.errors.count, "error") %> prohibited this bookmark from being saved:</h2>
@@ -21,7 +21,30 @@
     <%= form.text_field :url %>
   </div>
 
+
+  <div class="field">
+    <%= form.label :category_ids, "Categories:" %>
+    <br>
+    <%= form.collection_check_boxes :category_ids, Category.all, :id, :title do |m| %>
+      <div class="checkbox col-sm-6 widthLi">
+        <%= m.check_box %> <%= m.text %>
+      </div>
+    <% end %>
+  </div>
+
+<br>
+  <div class="field">
+    <%= form.label :kind_ids, "Kinds:" %>
+    <br>
+    <%= form.collection_check_boxes :kind_ids, Kind.all, :id, :title do |n| %>
+      <div class="checkbox col-sm-6 widthLi">
+        <%= n.check_box %> <%= n.text %>
+      </div>
+    <% end %>
+  </div>
+  <br>
+  
   <div class="actions">
-    <%= form.submit %>
+    <%= form.submit data: {confirm: 'Are you sure?'} %>
   </div>
 <% end %>

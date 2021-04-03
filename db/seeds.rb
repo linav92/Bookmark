@@ -24,3 +24,19 @@ end
         Category.create!(title: title, is_public: is_public, category_id: category_id)
     end
 end
+
+categories = Category.all
+kinds = Kind.all
+
+10.times do |i|
+  title = Faker::Hipster.word + (i + 1).to_s
+  url = Faker::Internet.url
+  Bookmark.create!(title: title, url: url)
+end
+
+Bookmark.all.each do |b|
+  3.times do 
+    BookmarkCategory.create!(bookmark: b, category: categories.sample)
+    BookmarkKind.create!(bookmark: b, kind: kinds.sample)
+  end
+end
